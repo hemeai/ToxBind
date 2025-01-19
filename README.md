@@ -1,8 +1,9 @@
 # Snake Venom Binder(s)
 
-This is a repository for the snake venom binder project using BindCraft. The project is based on the paper "Neutralizing deadly snake toxins" by the Baker lab (Awesome work). The paper describes the design of a protein that can neutralize snake venom toxins. The protein is based on a-cobratoxin, a toxin from the Naja atra cobra. The protein is called a-cobratoxin-AChBP. The protein is a fusion of a-cobratoxin and the acetylcholine binding protein (AChBP). The protein is designed to bind to the toxin and neutralize it.
+This is a repository for the snake venom binder project using BindCraft. The project is based on the paper "De novo designed proteins neutralize lethal snake venom toxins" by the Baker lab (Awesome work). The paper describes the design of a protein that can neutralize snake venom toxins. The protein is based on a-cobratoxin, a toxin from the Naja atra cobra. The protein is called a-cobratoxin-AChBP. The protein is a fusion of a-cobratoxin and the acetylcholine binding protein (AChBP). The protein is designed to bind to the toxin and neutralize it.
 
 Paper link:
+De novo designed proteins neutralize lethal snake venom toxins
 https://www.nature.com/articles/s41586-024-08393-x
 
 ### Designed Snake Venom Binder
