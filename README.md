@@ -12,6 +12,10 @@ https://www.nature.com/articles/s41586-024-08393-x
 Molecular surface representation:
 ![Snake Venom - Binder Complex 2](./others/images/5nq4_l84_s3585_mpnn4_model2.png)
 
+### Designed binder table
+
+The binding affinity data is available in [final_results.csv](./final_results.csv)
+
 Article:
 https://www.bakerlab.org/2025/01/15/neutralizing-deadly-snake-toxins/
 
