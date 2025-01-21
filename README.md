@@ -18,7 +18,13 @@ https://www.nature.com/articles/s41586-024-08393-x
 
 One of the binder in cartoon and molecular surface representation.
 
-<img src="./others/images/5nq4_l84_s3585_mpnn4_model2_cartoon.png" width="300" /> <img src="./others/images/5nq4_l84_s3585_mpnn4_model2.png" width="300" />
+<img src="./others/images/5nq4_l84_s3585_mpnn4_model2_cartoon.png" width="300" height="350" /> <img src="./others/images/5nq4_l84_s3585_mpnn4_model2.png" width="300" height="350" />
+
+## TODO
+
+- [ ] Combine all workflow into one
+- [ ] Add target sequence, PBD ID of target sequence, Date and BindCraft version
+- [ ] Add GCP backend also
 
 ## References & Useful Links
 
