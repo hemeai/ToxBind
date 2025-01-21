@@ -1,21 +1,26 @@
 # ToxBind: Snake Venom Binder
 
+## Binder table
+
+Note: Designed binders are not yet validated experimentally.
+
+Binder table: [final_results.csv](./final_results.csv)
+
+## Introduction
+
 This is a repository for the snake venom binder project using BindCraft. The project is based on the paper "De novo designed proteins neutralize lethal snake venom toxins" by the Baker lab (Awesome work). The paper describes the design of a protein that can neutralize snake venom toxins.
 
 Paper link:
 De novo-designed proteins neutralize lethal snake venom toxins
 https://www.nature.com/articles/s41586-024-08393-x
 
-### Designed Snake Venom Binder
+## Designed Snake Venom Binder
 
-![Snake Venom - Binder Complex ](./others/images/5nq4_l84_s3585_mpnn4_model2_cartoon.png)
+One of the binder in cartoon and molecular surface representation.
 
-Molecular surface representation:
-![Snake Venom - Binder Complex 2](./others/images/5nq4_l84_s3585_mpnn4_model2.png)
+<img src="./others/images/5nq4_l84_s3585_mpnn4_model2_cartoon.png" width="300" /> <img src="./others/images/5nq4_l84_s3585_mpnn4_model2.png" width="300" />
 
-### Designed binder table
-
-Binder table: [final_results.csv](./final_results.csv)
+## References & Useful Links
 
 Article:
 https://www.bakerlab.org/2025/01/15/neutralizing-deadly-snake-toxins/
