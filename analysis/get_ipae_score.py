@@ -5,34 +5,41 @@ import glob
 
 combined_df = pd.read_csv("./combined_data.csv")
 
+def check_existing_result(fasta_file_name):
+    """Check if result file already exists"""
+    existing_files = glob.glob(f"./alphafold_results/**/{fasta_file_name}.result.zip", recursive=True)
+    return len(existing_files) > 0
+
 # Initialize a dictionary to store the results
 results = {}
-target_seq = "LKCNKLVPIAYKTCPEGKNLCYKMFMMSDLTIPVKRGCIDVCPKNSLLVKYVCCNTDRCN"
-
 # Iterate over each row of the DataFrame
 for index, row in combined_df.iterrows():
     fasta_file_name = row["Design"]
     binder_seq_len = row["Length"]
     binder_sequence = row["Sequence"]
+    target_seq = row["TargetSequence"]
+    target_seq_len = row["TargetSequenceLength"]
     print("fasta file name: ", fasta_file_name)
     print("binder sequence: ", binder_sequence)
-    print("binder sequence length: ", binder_seq_len)
+    print("target sequence: ", target_seq)
+    print(f"binder sequence length: {binder_seq_len} target sequence length: {target_seq_len}")
 
     # Create the FASTA file content
     # Add a colon at the end of the sequence
     comined_seq = target_seq + ":" + binder_sequence
-
-    # Create the FASTA file content
     fasta_content = f">{fasta_file_name}\n{comined_seq}\n"
 
     # Write the FASTA file
     fasta_file_path = f"{fasta_file_name}.fasta"
     with open(fasta_file_path, "w") as fasta_file:
         fasta_file.write(fasta_content)
-
-    # Run the shell script with the appropriate parameters
-    command = f'GPU="H100" modal run modal_alphafold.py --input-fasta {fasta_file_path} --out-dir ./alphafold_results'
-    subprocess.run(command, shell=True)
+    
+    # Before running command, check if result exists
+    if check_existing_result(fasta_file_name):
+        print(f"Result for {fasta_file_name} already exists, skipping computation")
+    else:
+        command = f'GPU="H100" modal run modal_alphafold.py --input-fasta {fasta_file_path} --out-dir ./alphafold_results'
+        subprocess.run(command, shell=True)
 
     # Capture the ipae score from the result
     result_zip = glob.glob(f"./alphafold_results/**/{fasta_file_name}.result.zip", recursive=True)[0]
