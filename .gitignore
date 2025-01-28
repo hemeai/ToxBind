@@ -5,6 +5,8 @@ config.json
 out/bindcraft/
 out/bindcraft/**/*
 
+analysis/alphafold_results
+
 # System files
 .DS_Store
 *.log
@@ -12,3 +14,4 @@ out/bindcraft/**/*
 # Environment files
 .env
 .env.local
+
