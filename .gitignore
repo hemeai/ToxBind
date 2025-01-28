@@ -1,3 +1,14 @@
 config.json
 ./out/*
 ./out 
+
+out/bindcraft/
+out/bindcraft/**/*
+
+# System files
+.DS_Store
+*.log
+
+# Environment files
+.env
+.env.local
