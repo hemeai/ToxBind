@@ -6,6 +6,9 @@ Note: Designed binders are not yet validated experimentally.
 
 Binder table: [final_results.csv](./final_results.csv)
 
+Results and PDB files from the run is maintained here:
+https://drive.google.com/drive/folders/1Gxfo3N9OhU5ZyxvZsio3WGBP6lHr02mt
+
 ## Introduction
 
 This is a repository for the snake venom binder project using BindCraft. The project is based on the paper "De novo designed proteins neutralize lethal snake venom toxins" by the Baker lab (Awesome work). The paper describes the design of a protein that can neutralize snake venom toxins.
