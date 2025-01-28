@@ -6,8 +6,10 @@ Note: Designed binders are not yet validated experimentally.
 
 Binder table: [final_results.csv](./final_results.csv)
 
-Results and PDB files from the run is maintained here:
-https://drive.google.com/drive/folders/1Gxfo3N9OhU5ZyxvZsio3WGBP6lHr02mt
+Large files (Trajectory animations, plots) are not tracked in this repository due to size constraints.
+Please download them from:
+
+- [Google Drive Link](https://drive.google.com/drive/folders/1Gxfo3N9OhU5ZyxvZsio3WGBP6lHr02mt)
 
 ## Introduction
 
