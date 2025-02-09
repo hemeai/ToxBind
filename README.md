@@ -41,3 +41,4 @@ https://www.rcsb.org/3d-view/1YI5
 
 https://en.wikipedia.org/wiki/Snake_venom
 https://www.sciencedirect.com/science/article/abs/pii/B9780124158139000143
+https://en.wikipedia.org/wiki/Amino_acid
