@@ -4,7 +4,15 @@
 
 # ToxBind: Snake Venom Binder
 
-## Introduction
+## Table of Contents
+
+1. [Introduction](#1-introduction)
+2. [Target Protein Link](#2-target-protein-link)
+3. [Designed Snake Venom Binder](#3-designed-snake-venom-binder)
+4. [TODO](#4-todo)
+5. [References & Useful Links](#5-references-&-useful-links)
+
+## 1. Introduction
 
 This is a repository for the snake venom binder project using BindCraft. The project is based on the paper "De novo designed proteins neutralize lethal snake venom toxins" by the Baker lab (Awesome work). The paper describes the design of a protein that can neutralize snake venom toxins.
 
@@ -22,13 +30,11 @@ https://www.nature.com/articles/s41586-024-08393-x
 [2] https://pubmed.ncbi.nlm.nih.gov/29626299/ <br>
 [3] https://www.nature.com/articles/s41467-022-32174-7 <br>
 
-## Designed Snake Venom Binder
+## 2. Designed Snake Venom Binder
 
 One of the binder in cartoon and molecular surface representation.
 
 <img src="./others/images/5nq4_l84_s3585_mpnn4_model2_cartoon.png" width="300" height="350" /> <img src="./others/images/5nq4_l84_s3585_mpnn4_model2.png" width="300" height="350" />
-
-## Binder table
 
 Note: Designed binders are not yet validated experimentally.
 
@@ -39,7 +45,7 @@ Please download them from:
 
 - [Google Drive Link](https://drive.google.com/drive/folders/1Gxfo3N9OhU5ZyxvZsio3WGBP6lHr02mt)
 
-## Target protein link
+## 3. Target Protein Link
 
 7Z14: https://www.rcsb.org/structure/7Z14
 
@@ -49,13 +55,13 @@ https://pmc.ncbi.nlm.nih.gov/articles/PMC9352773/
 
 > Bites by elapid snakes (e.g. cobras) can result in life-threatening paralysis caused by venom neurotoxins blocking neuromuscular nicotinic acetylcholine receptors. Here, we determine the cryo-EM structure of the muscle-type Torpedo receptor in complex with ScNtx, a recombinant short-chain α-neurotoxin. ScNtx is pinched between loop C on the principal subunit and a unique hairpin in loop F on the complementary subunit, thereby blocking access to the neurotransmitter binding site. ScNtx adopts a binding mode that is tilted toward the complementary subunit, forming a wider network of interactions than those seen in the long-chain α-Bungarotoxin complex. Certain mutations in ScNtx at the toxin-receptor interface eliminate inhibition of neuronal α7 nAChRs, but not of human muscle-type receptors. These observations explain why ScNtx binds more tightly to muscle-type receptors than neuronal receptors. Together, these data offer a framework for understanding subtype-specific actions of short-chain α-neurotoxins and inspire strategies for design of new snake antivenoms.
 
-## TODO
+## 4. TODO
 
 - [ ] Combine all workflow into one
 - [ ] Add target sequence, PBD ID of target sequence, Date and BindCraft version
 - [ ] Add GCP backend also
 
-## References & Useful Links
+## 5. References & Useful Links
 
 Article:
 https://www.bakerlab.org/2025/01/15/neutralizing-deadly-snake-toxins/
