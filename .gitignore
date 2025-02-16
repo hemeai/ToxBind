@@ -1,10 +1,11 @@
+# Output directories
+out/
+out/**
+
+# Config files
 config.json
-./out/*
-./out 
 
-out/bindcraft/
-out/bindcraft/**/*
-
+# Analysis outputs
 analysis/alphafold_results
 
 # System files
@@ -14,4 +15,3 @@ analysis/alphafold_results
 # Environment files
 .env
 .env.local
-
