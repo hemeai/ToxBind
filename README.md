@@ -60,6 +60,7 @@ https://pmc.ncbi.nlm.nih.gov/articles/PMC9352773/
 - [ ] Combine all workflow into one
 - [ ] Add target sequence, PBD ID of target sequence, Date and BindCraft version
 - [ ] Add GCP backend also
+- [ ] Build consensus toxin with AF2
 
 ## 5. References & Useful Links
 
