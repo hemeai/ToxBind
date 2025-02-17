@@ -57,8 +57,10 @@ https://pmc.ncbi.nlm.nih.gov/articles/PMC9352773/
 
 ## 4. TODO
 
-- [ ] Combine all workflow into one
-- [ ] Add target sequence, PBD ID of target sequence, Date and BindCraft version
+- [x] Combine all workflow into one
+- [ ] Remove duplicate runs, and re-run of the same thing again and again s
+- [x] Add target sequence, Folder
+- [ ] PBD ID of target sequence, Date and BindCraft version
 - [ ] Add GCP backend also
 - [ ] Build consensus toxin with AF2
 

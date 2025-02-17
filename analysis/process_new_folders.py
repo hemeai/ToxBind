@@ -28,7 +28,7 @@ def get_s3_folders(bucket_name, aws_access_key_id, aws_secret_access_key, prefix
 def get_processed_folders():
     try:
         df = pd.read_csv('final_results.csv')
-        return set(df['Folder'].unique())
+        return set(df['Folder'].astype(str).unique())
     except FileNotFoundError:
         return set()
 
@@ -72,9 +72,11 @@ def main():
     
     # Get processed folders
     processed_folders = get_processed_folders()
-    
+
     # Find new folders to process
     new_folders = set(s3_folders) - processed_folders
+
+    print(f"New folders to process: {new_folders}")
     
     if not new_folders:
         print("No new folders to process")

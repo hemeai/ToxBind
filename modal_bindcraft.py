@@ -1077,6 +1077,7 @@ def process_and_upload(
 
     s3_client = boto3.client("s3")
     bucket_name = "bindcraft"
+    prefix = "snake-venom-binder"  # Add prefix for the folder
     results = []
 
     try:
@@ -1092,12 +1093,14 @@ def process_and_upload(
                 with open(temp_path, "wb") as f:
                     f.write(out_content)
 
-                # Upload to S3
-                s3_key = f"{today}/{out_file}"
+                # Upload to S3 with prefix
+                s3_key = f"{prefix}/{today}/{out_file}"  # Add prefix to S3 key
                 s3_client.upload_file(
-                    Filename=str(temp_path), Bucket=bucket_name, Key=s3_key
+                    Filename=str(temp_path), 
+                    Bucket=bucket_name, 
+                    Key=s3_key
                 )
-                logger.info(f"Successfully uploaded {out_file} to S3")
+                logger.info(f"Successfully uploaded {out_file} to S3 under {prefix}")
                 results.append((str(out_file), True))
 
             except Exception as e:
@@ -1109,7 +1112,6 @@ def process_and_upload(
         raise
 
     return results
-
 
 @app.function(
     image=image,
