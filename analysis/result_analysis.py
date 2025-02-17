@@ -20,8 +20,8 @@ merged_df = pd.merge(combined_df, results_ipae_df, left_on='Design', right_on='D
 merged_df
 
 # %%
-for value in merged_df.columns.to_list(): 
-    print(value)
+# for value in merged_df.columns.to_list(): 
+#     print(value)
 
 # %%
 specific_columns = [
@@ -55,7 +55,7 @@ specific_columns = [
 # %%
 sorted_merged_df = merged_df.sort_values(by='ipae_score', ascending=True)
 sorted_merged_df = sorted_merged_df[specific_columns]
-sorted_merged_df
+# sorted_merged_df
 
 # %%
 sorted_merged_df.to_csv("final_results.csv", index=False)
@@ -78,12 +78,6 @@ fasta_file_path = f"{fasta_file_name}.fasta"
 with open(fasta_file_path, "w") as fasta_file:
     fasta_file.write(final_fasta_content)
 
-# %%
-filtered_df = merged_df[merged_df['Notes'].isna()]
-filtered_df
-
-# %%
-merged_df['Notes'].to_list()
 
 # %%
 shutil.copy('final_results.csv', '../final_results.csv')
