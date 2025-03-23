@@ -4,6 +4,10 @@
 
 # ToxBind: Snake Venom Binder
 
+<div align="center">
+  <img src="https://github.com/hemeai/ToxBind/blob/main/others/images/ToxBind_Cover.svg?raw=true" width="100%"  alt="ToxBind Cover Image" />
+</div>
+
 ## Table of Contents
 
 1. [Introduction](#1-introduction)
@@ -31,11 +35,6 @@ https://www.nature.com/articles/s41586-024-08393-x
 [3] https://www.nature.com/articles/s41467-022-32174-7 <br>
 
 ## 2. Designed Snake Venom Binder
-
-One of the binder in cartoon and molecular surface representation.
-
-<img src="./others/images/5nq4_l84_s3585_mpnn4_model2_cartoon.png" width="300" height="350" /> <img src="./others/images/5nq4_l84_s3585_mpnn4_model2.png" width="300" height="350" />
-
 Note: Designed binders are not yet validated experimentally.
 
 Binder table: [final_results.csv](./final_results.csv)
