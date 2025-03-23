@@ -2,6 +2,9 @@
 out/
 out/**
 
+cover/ 
+cover/** 
+
 # Config files
 config.json
 
