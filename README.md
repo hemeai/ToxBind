@@ -5,7 +5,7 @@
 # ToxBind: Snake Venom Binder
 
 <div align="center">
-  <img src="https://github.com/hemeai/ToxBind/blob/main/others/images/ToxBind_Cover.svg?raw=true" width="100%"  alt="ToxBind Cover Image" />
+  <img src="https://github.com/hemeai/ToxBind/blob/main/others/images/toxbind_cover.png?raw=true" width="100%"  alt="ToxBind Cover Image" />
 </div>
 
 ## Table of Contents
