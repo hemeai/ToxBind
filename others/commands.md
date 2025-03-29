@@ -8,6 +8,16 @@ modal run modal_pdb2png.py --input-pdb ./../out/bindcraft/snake-venom-binder/250
 modal run modal_pdb2png.py --input-pdb ./../out/bindcraft/snake-venom-binder/2501222051/Accepted/7z14_l74_s134466_mpnn6_model2.pdb 
 modal run modal_pdb2png.py --input-pdb ./../out/bindcraft/snake-venom-binder/2502151901/Accepted/1yi5_l88_s642851_mpnn2_model1.pdb
 
+modal run modal_pdb2png.py --input-pdb ./../out/bindcraft/snake-venom-binder/2502151901/Accepted/1yi5_l88_s642851_mpnn2_model1.pdb --render-style flat --protein-rotate 0,45,0 --run-name cover
+
+
+default 
+default_bw
+default_cartoon
+dark 
+flat 
+cartoon 
+
 RGB color: 
 228, 26, 28 
 55, 126, 184 
