@@ -45,8 +45,20 @@ Please download them from:
 - [Google Drive Link](https://drive.google.com/drive/folders/1Gxfo3N9OhU5ZyxvZsio3WGBP6lHr02mt)
 
 ## 3. Target Protein Link
+We have following targets: 
+1. 1QKD: https://www.rcsb.org/structure/1QKD Erabutoxin
+2. 1YI5: https://www.rcsb.org/structure/1YI5 Long alpha-neurotoxins, alpha-cobratoxin
+3. 7Z14: https://www.rcsb.org/structure/7Z14 Short-chain neurotoxin
+4. 5NQ4: https://www.rcsb.org/structure/5NQ4 S-type cobra cytotoxin
 
-7Z14: https://www.rcsb.org/structure/7Z14
+Overall, all targets can be classified into two categories: cytotoxins and neurotoxins. There are two types of neurotoxins: short-chain and long-chain. For the binder to be effective, it must neutralize all types of toxins present in the snake venom simultaneously. It is important to understand the conserved structural parts, i.e., regions with no mutations in amino acids.  
+
+Let's try to understand the target structure better—what makes it unique and the importance of conserved amino acids for its function. I attempted secondary structure analysis using Biopython.
+
+To create an effective binder, we should focus on three parameters:
+1. Conserved structural parts – Ensuring a single binder can neutralize diverse types of toxins.
+2. Likable amino acids – Better binding affinity leads to higher potency, allowing for a lower dose.
+3. Accessibility of structural parts – Even if certain parts are present in the target structure, they may be buried inside, making them harder to access and reducing binding affinity.
 
 https://pmc.ncbi.nlm.nih.gov/articles/PMC9352773/
 
