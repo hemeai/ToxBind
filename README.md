@@ -44,7 +44,7 @@ Please download them from:
 
 - [Google Drive Link](https://drive.google.com/drive/folders/1Gxfo3N9OhU5ZyxvZsio3WGBP6lHr02mt)
 
-## 3. Target Protein Link
+## 3. Target Toxin/Proteins 
 We have following targets: 
 1. 1QKD: https://www.rcsb.org/structure/1QKD Erabutoxin
 2. 1YI5: https://www.rcsb.org/structure/1YI5 Long alpha-neurotoxins, alpha-cobratoxin
@@ -56,9 +56,21 @@ Overall, all targets can be classified into two categories: cytotoxins and neuro
 Let's try to understand the target structure better—what makes it unique and the importance of conserved amino acids for its function. I attempted secondary structure analysis using Biopython.
 
 To create an effective binder, we should focus on three parameters:
-1. Conserved structural parts – Ensuring a single binder can neutralize diverse types of toxins.
-2. Likable amino acids – Better binding affinity leads to higher potency, allowing for a lower dose.
-3. Accessibility of structural parts – Even if certain parts are present in the target structure, they may be buried inside, making them harder to access and reducing binding affinity.
+  1. Conserved structural parts – Ensuring a single binder can neutralize diverse types of toxins.
+  2. Likable amino acids – Better binding affinity leads to higher potency, allowing for a lower dose.
+  3. Accessibility of structural parts – Even if certain parts are present in the target structure, they may be buried inside, making them harder to access and reducing binding affinity.
+
+
+Let's explain three in details: 
+
+1. Conserved structural parts: 
+TODO
+
+2. Likable amino acids:
+Amino acids that are hydrophobic in nature tend to be more favorable for binding sites. Therefore, we can focus on non-polar amino acids.
+
+3. Accessibility of structural parts:
+Using BioPython, we can analyze the [protein structure](./functions/7z14_secondary_structure_information.csv) and know the type of secondary structure of present, which seqeuence of which type of structure. Along, with that we can calculate the accessibity score, higher score means it is most present on the outside and has less steric hinderence posed by the adjacent residues & vice-versa. 
 
 https://pmc.ncbi.nlm.nih.gov/articles/PMC9352773/
 
