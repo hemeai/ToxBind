@@ -120,7 +120,7 @@ def score_af2m_binding(af2m_dict: str, target_len: int, binders_len: list[int]) 
     image=image,
     gpu=GPU,
     timeout=TIMEOUT,
-    mounts=[Mount.from_local_dir(LOCAL_MSA_DIR, remote_path="/msas")],
+    mounts=[image.add_local_dir(LOCAL_MSA_DIR, remote_path="/msas")],
 )
 def alphafold(
     fasta_name: str,

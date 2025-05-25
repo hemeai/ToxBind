@@ -2,6 +2,7 @@ import pandas as pd
 import subprocess
 import re
 import glob
+import os 
 
 combined_df = pd.read_csv("./combined_data.csv")
 
@@ -9,6 +10,10 @@ def check_existing_result(fasta_file_name):
     """Check if result file already exists"""
     existing_files = glob.glob(f"./alphafold_results/**/{fasta_file_name}.result.zip", recursive=True)
     return len(existing_files) > 0
+
+# Define a directory for FASTA files
+FASTA_OUTPUT_DIR = "./fasta_files_for_alphafold"
+os.makedirs(FASTA_OUTPUT_DIR, exist_ok=True)
 
 # Initialize a dictionary to store the results
 results = {}
@@ -30,7 +35,7 @@ for index, row in combined_df.iterrows():
     fasta_content = f">{fasta_file_name}\n{comined_seq}\n"
 
     # Write the FASTA file
-    fasta_file_path = f"{fasta_file_name}.fasta"
+    fasta_file_path = os.path.join(FASTA_OUTPUT_DIR, f"{fasta_file_name}.fasta")
     with open(fasta_file_path, "w") as fasta_file:
         fasta_file.write(fasta_content)
     
@@ -38,7 +43,7 @@ for index, row in combined_df.iterrows():
     if check_existing_result(fasta_file_name):
         print(f"Result for {fasta_file_name} already exists, skipping computation")
     else:
-        command = f'GPU="H100" modal run modal_alphafold.py --input-fasta {fasta_file_path} --out-dir ./alphafold_results'
+        command = f'GPU="H100" modal run ./modal_alphafold.py --input-fasta {fasta_file_path} --out-dir ./alphafold_results'
         subprocess.run(command, shell=True)
 
     # Capture the ipae score from the result
