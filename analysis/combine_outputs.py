@@ -1,162 +1,166 @@
-# %%
+"""
+Combines design statistics with extracted protein sequences from PDB files.
+
+This script reads CSV files containing design statistics from specified folders,
+extracts protein sequences from PDB files located in 'Accepted' subfolders
+within a given parent directory, and then merges this information based on
+sequence identity into a single CSV file named 'combined_data.csv'.
+"""
 import os
 import pandas as pd
+from Bio.PDB import PDBParser, PPBuilder
 
-# Function to read CSV files from each folder and combine them into a single DataFrame
-def read_csv_from_folders(base_path):
+def read_csv_from_folders(base_path_param):
+    """
+    Reads CSV files named 'final_design_stats.csv' from each subfolder
+    of the base_path_param and combines them into a single DataFrame.
+    """
     data_frames = []
-    
+
     # Iterate through each folder in the base path
-    for folder_name in os.listdir(base_path):
-        folder_path = os.path.join(base_path, folder_name)
-        
+    for folder_name in os.listdir(base_path_param):
+        folder_path = os.path.join(base_path_param, folder_name)
+
         # Check if it's a directory
         if os.path.isdir(folder_path):
             # Define the path to the CSV file
             csv_path = os.path.join(folder_path, 'final_design_stats.csv')
-            
+
             # If the CSV file exists, read it
             if os.path.exists(csv_path):
-                df = pd.read_csv(csv_path)
-                # Optionally, add a column for folder name to track from which folder the data came
-                df['Folder'] = folder_name
-                data_frames.append(df)
-    
+                try:
+                    df = pd.read_csv(csv_path)
+                    # Optionally, add a column for folder name
+                    df['Folder'] = folder_name
+                    data_frames.append(df)
+                except pd.errors.EmptyDataError:
+                    print(f"Warning: CSV file {csv_path} is empty and will be skipped.")
+                except pd.errors.ParserError as e:
+                    print(f"ParserError reading CSV file {csv_path}: {e}")
+                except IOError as e:
+                    print(f"IOError reading CSV file {csv_path}: {e}")
+                except Exception as e:  # Catch other truly unexpected issues
+                    print(f"An unexpected error occurred while reading {csv_path}: {e}")
+
     # Combine all the DataFrames into a single DataFrame (if any)
-    if data_frames:
-        combined_df = pd.concat(data_frames, ignore_index=True)
-        return combined_df
-    else:
-        return None
+    if not data_frames:
+        return None # Return None if no dataframes were loaded
 
-# Example usage
-base_path = './../out/bindcraft/snake-venom-binder'
-final_design_stats_df = read_csv_from_folders(base_path)
-final_design_stats_df.head()
-final_design_stats_df.shape
+    combined_df_local = pd.concat(data_frames, ignore_index=True)
+    return combined_df_local
 
-# %%
-import os
-from Bio.PDB import PDBParser, PPBuilder
+def extract_sequences_from_pdb(file_path, parser, ppb):
+    """Helper function to extract sequences from a single PDB file."""
+    file_sequences = {}
+    try:
+        structure = parser.get_structure("Protein", file_path)
+        for model in structure:
+            for chain in model:
+                chain_id = chain.id
+                peptides = ppb.build_peptides(chain)
+                chain_sequences = [
+                    str(peptide.get_sequence()) for peptide in peptides
+                ]
+                if chain_sequences:
+                    file_sequences[chain_id] = chain_sequences
+                else:
+                    file_sequences[chain_id] = ["No sequence found"]
+    except RuntimeError as e: # More specific exception for PDB parsing issues
+        print(f"Error processing PDB file {file_path}: {e}")
+    return file_sequences
 
-def extract_sequences_from_accepted_folders(parent_folder):
+def extract_sequences_from_accepted_folders(parent_folder_param):
     """
-    Searches for PDB files directly in 'Accepted' folders within the given parent folder and extracts sequences.
+    Searches for PDB files directly in 'Accepted' folders within the given
+    parent folder and extracts sequences.
     Ignores subdirectories inside 'Accepted' folders.
-    
+
     Args:
-        parent_folder (str): The path to the parent folder to search for PDB files.
-        
+        parent_folder_param (str): The path to the parent folder to search for PDB files.
+
     Returns:
         dict: A dictionary where keys are filenames and values are sequences by chain.
     """
-    # Initialize the PDB parser
     parser = PDBParser(QUIET=True)
-    
-    # Dictionary to store sequences by file
-    sequences = {}
-    
-    # Walk through the parent folder and all its subdirectories
-    for root, dirs, files in os.walk(parent_folder):
-        # Check if the current directory is an 'Accepted' folder
+    ppb = PPBuilder()
+    sequences_dict = {}
+
+    for root, _, files in os.walk(parent_folder_param): # Removed unused 'dirs'
         if os.path.basename(root) == "Accepted":
             for file in files:
-                if file.endswith(".pdb"):  # Check if the file is a PDB file
+                if file.endswith(".pdb"):
                     file_path = os.path.join(root, file)
                     print(f"Processing file: {file_path}")
-                    
-                    try:
-                        # Parse the PDB structure
-                        structure = parser.get_structure("Protein", file_path)
-                        
-                        # Use the Polypeptide builder to extract sequences for each chain
-                        ppb = PPBuilder()
-                        file_sequences = {}
-                        
-                        for model in structure:
-                            for chain in model:
-                                chain_id = chain.id
-                                peptides = ppb.build_peptides(chain)
-                                chain_sequences = [
-                                    str(peptide.get_sequence()) for peptide in peptides
-                                ]
-                                if chain_sequences:
-                                    file_sequences[chain_id] = chain_sequences
-                                else:
-                                    file_sequences[chain_id] = ["No sequence found"]
-                        
-                        # Add the file's sequences to the result dictionary
-                        sequences[file_path] = file_sequences
-                    
-                    except Exception as e:
-                        print(f"Error processing file {file_path}: {e}")
-    
-    return sequences
+                    file_sequences = extract_sequences_from_pdb(file_path, parser, ppb)
+                    if file_sequences: # Only add if sequences were found
+                        sequences_dict[file_path] = file_sequences
+    return sequences_dict
 
-
-import pandas as pd
-def extract_sequences_to_dataframe(sequences):
+def extract_sequences_to_dataframe(sequences_param):
     """
-    Extracts File ID, Sequence 1, and Sequence 2 from the sequences dictionary into a DataFrame.
-    
+    Extracts File ID, Sequence 1 (Chain A), and Sequence 2 (Chain B)
+    from the sequences dictionary into a DataFrame.
+
     Args:
-        sequences (dict): Dictionary with file paths as keys and chain sequences as values.
-        
+        sequences_param (dict): Dictionary with file paths as keys
+                                and chain sequences as values.
+
     Returns:
-        pd.DataFrame: DataFrame containing File ID, Sequence 1, and Sequence 2.
+        pd.DataFrame: DataFrame containing DesignModel, TargetSequence, and Sequence.
     """
-    # List to store results
     data = []
-    
-    for file, chains in sequences.items():
-        # Extract the File ID from the file path
+
+    for file, chains in sequences_param.items():
         file_id = os.path.splitext(os.path.basename(file))[0]
-        
-        # Initialize placeholders for Sequence 1 and Sequence 2
         sequence1 = None
         sequence2 = None
-        
-        # Iterate through chains to get sequences
-        for chain, seq_list in chains.items():
-            if chain == "A" and seq_list:  # Assume Sequence 1 corresponds to Chain A
-                sequence1 = seq_list[0]  # Take the first sequence from Chain A
-            elif chain == "B" and seq_list:  # Assume Sequence 2 corresponds to Chain B
-                sequence2 = seq_list[0]  # Take the first sequence from Chain B
-        
-        # Append to the results
+
+        for chain_id, seq_list in chains.items():
+            if chain_id == "A" and seq_list:
+                sequence1 = seq_list[0]
+            elif chain_id == "B" and seq_list:
+                sequence2 = seq_list[0]
+
         data.append([file_id, sequence1, sequence2])
-    
-    # Create a DataFrame
+
     df = pd.DataFrame(data, columns=["DesignModel", "TargetSequence", "Sequence"])
     return df
 
 # Example usage
-parent_folder = "./../out/bindcraft/snake-venom-binder"  # Replace with your parent folder path
-sequences = extract_sequences_from_accepted_folders(parent_folder)
-accepted_df = extract_sequences_to_dataframe(sequences)
-accepted_df.head()
+# Define base path for input CSVs
+BASE_PATH = './../out/bindcraft/snake-venom-binder'
+# Define parent folder for PDB files
+PARENT_FOLDER = "./../out/bindcraft/snake-venom-binder"
 
-# %%
-final_design_stats_df.head()
+# Process CSVs
+final_design_stats_df = read_csv_from_folders(BASE_PATH)
 
-# %%
-combined_df = pd.merge(final_design_stats_df, accepted_df, on='Sequence')
-combined_df['TargetSequenceLength'] = combined_df['TargetSequence'].apply(len)
-combined_df.head()
+if final_design_stats_df is not None:
+    print("Successfully read design stats CSVs.")
+    # final_design_stats_df.head() # For debugging, can be uncommented
+    # print(f"Shape of final_design_stats_df: {final_design_stats_df.shape}") # For debugging
 
-# %%
-combined_df.tail()
+    # Process PDBs
+    sequences_result = extract_sequences_from_accepted_folders(PARENT_FOLDER)
+    accepted_df = extract_sequences_to_dataframe(sequences_result)
+    # accepted_df.head() # For debugging, can be uncommented
 
-# %%
-combined_df.to_csv('combined_data.csv', index=False)
+    # Merge dataframes
+    if not accepted_df.empty:
+        combined_df_result = pd.merge(final_design_stats_df, accepted_df, on='Sequence', how='left')
+        combined_df_result['TargetSequenceLength'] = combined_df_result['TargetSequence'].apply(
+            lambda x: len(x) if pd.notnull(x) else 0
+        )
+        # combined_df_result.head() # For debugging, can be uncommented
+        # combined_df_result.tail() # For debugging, can be uncommented
 
-# %%
-combined_df.shape
-
-# %%
-
-
-# %%
-
-
-
+        # Save the combined DataFrame
+        combined_df_result.to_csv('combined_data.csv', index=False)
+        print("Combined data saved to combined_data.csv")
+        # print(f"Shape of combined_df_result: {combined_df_result.shape}") # For debugging
+    else:
+        print("No sequences extracted, so no merge performed. Saving original design stats.")
+        final_design_stats_df.to_csv('combined_data.csv', index=False)
+        print("Original design stats saved to combined_data.csv")
+else:
+    print("No design statistics CSV files found or loaded. Exiting.")
