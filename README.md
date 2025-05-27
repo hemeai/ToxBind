@@ -18,11 +18,9 @@
 
 ## 1. Introduction
 
-This is a repository for the snake venom binder project using BindCraft. The project is based on the paper "De novo designed proteins neutralize lethal snake venom toxins" by the Baker lab (Awesome work). The paper describes the design of a protein that can neutralize snake venom toxins.
+This is a repository for the snake venom binder project using BindCraft. The project is based on the paper "De novo designed proteins neutralize lethal snake venom toxins[^1]" at [Baker lab](https://www.bakerlab.org/) (Awesome work). The paper describes the design of a protein that can neutralize snake venom toxins.
 
-Paper link:
-De novo-designed proteins neutralize lethal snake venom toxins
-https://www.nature.com/articles/s41586-024-08393-x
+[^1]: Vázquez Torres, S., Benard Valle, M., Mackessy, S.P. et al. De novo designed proteins neutralize lethal snake venom toxins. Nature 639, 225–231 (2025). https://doi.org/10.1038/s41586-024-08393-x
 
 **Abstract from the paper:**
 
