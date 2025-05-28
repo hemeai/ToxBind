@@ -10,15 +10,21 @@ jobs:
         python-version: ["3.11"]
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v3
+
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v2
         with:
+          auto-update-conda: true
           python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
+          activate-environment: true
+          auto-activate-base: false
+
+      - name: Install dependencies including PyMOL
         run: |
-          python -m pip install --upgrade pip
+          conda install -y -c conda-forge pymol-open-source
           pip install pylint
           pip install pandas biopython modal numpy colabfold boto3 dnachisel
+
       - name: Analysing the code with pylint
         run: |
           pylint $(git ls-files '*.py')
