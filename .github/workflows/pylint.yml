@@ -21,7 +21,7 @@ jobs:
 
       - name: Install dependencies including PyMOL
         run: |
-          conda install -y -c conda-forge pymol-open-source
+          conda install -y -c conda-forge pymol-open-source python=3.11
           pip install pylint
           pip install pandas biopython modal numpy colabfold boto3 dnachisel
 
