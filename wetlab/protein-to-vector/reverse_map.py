@@ -1,7 +1,20 @@
-from Bio import SeqIO
-from Bio.Seq import Seq
+"""
+This script reads a DNA sequence from a FASTA file, translates it into
+amino acids codon by codon, and prints a mapping of codon index,
+codon, and corresponding amino acid.
+"""
+from Bio import SeqIO # type: ignore
+from Bio.Seq import Seq # type: ignore
 
 def map_codons_to_amino_acids_from_fasta(fasta_path):
+    """
+    Reads a DNA sequence from a FASTA file, translates it codon by codon,
+    and prints the mapping.
+
+    Args:
+        fasta_path (str): The path to the input FASTA file containing
+                          a single DNA sequence.
+    """
     # Read the first DNA sequence from FASTA
     record = next(SeqIO.parse(fasta_path, "fasta"))
     dna_seq = str(record.seq)
@@ -18,5 +31,5 @@ def map_codons_to_amino_acids_from_fasta(fasta_path):
 
 # Run the function on your output file
 if __name__ == "__main__":
-    fasta_file = "output/optimized_dna.fasta"
-    map_codons_to_amino_acids_from_fasta(fasta_file)
+    DEFAULT_FASTA_FILE = "output/optimized_dna.fasta"
+    map_codons_to_amino_acids_from_fasta(DEFAULT_FASTA_FILE)
