@@ -8,34 +8,29 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.11"]
+
     steps:
       - uses: actions/checkout@v4
 
       - name: Set up Miniconda
         uses: conda-incubator/setup-miniconda@v2
         with:
-          auto-update-conda: true
           python-version: ${{ matrix.python-version }}
           activate-environment: true
           auto-activate-base: false
+          use-only-tar-bz2: true  # important for caching
 
-      - name: Cache Pymol
+      - name: Cache Conda packages
         uses: actions/cache@v4
-        id: cache-pymol
         with:
-          path: ~/miniconda/pkgs
-          key: ${{ runner.os }}-pymol-${{ matrix.python-version }}
+          path: ~/.conda/pkgs  # default package cache path
+          key: conda-pkgs-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('environment.yml') }}
+          restore-keys: |
+            conda-pkgs-${{ runner.os }}-${{ matrix.python-version }}-
 
-      - name: Install dependencies including PyMOL
-        run: |
-          conda install -y -c conda-forge pymol-open-source python=3.11
-        if: steps.cache-pymol.outputs.cache-hit != 'true'
+      - name: Install dependencies from environment.yml
+        run: conda env update --file environment.yml --name base
 
-      - name: Install other dependencies
-        run: |
-          pip install pylint
-          pip install pandas biopython modal numpy colabfold boto3 dnachisel
-
-      - name: Analysing the code with pylint
+      - name: Run pylint
         run: |
           pylint $(git ls-files '*.py') --output=lint.txt || true
