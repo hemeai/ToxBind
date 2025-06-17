@@ -57,3 +57,5 @@ TIMEOUT=1400 GPU=A100 modal run --detach modal_bindcraft.py --input-pdb ./target
 TIMEOUT=1400 GPU=A100 modal run --detach modal_bindcraft.py --input-pdb ./target/1yi5.pdb --chains F  --target-hotspot-residues F43 --lengths 72,96 --number-of-final-designs 1
 
 TIMEOUT=1400 GPU=A100 modal run --detach modal_bindcraft.py --input-pdb ./target/1yi5.pdb --chains F  --target-hotspot-residues F50,F51 --lengths 72,96 --number-of-final-designs 1
+
+TIMEOUT=1400 GPU=A100 modal run --detach modal_bindcraft.py --input-pdb ./target/1yi5.pdb --chains F  --target-hotspot-residues F43,F44,F45 --lengths 72,96 --number-of-final-designs 1
