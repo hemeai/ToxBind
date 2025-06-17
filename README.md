@@ -42,7 +42,7 @@ The target protein for each type of toxin is selected. For cytotoxin, a consensu
 ## 2. Designed Snake Venom Binder
 Note: Designed binders are not yet validated experimentally.
 
-Binder table: [Results.csv](./Results.csv)
+Binder table: [final_results.csv](./final_results.csv)
 
 Large files (Trajectory animations, plots) are not tracked in this repository due to size constraints.
 Please download them from:
