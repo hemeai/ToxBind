@@ -82,7 +82,25 @@ https://pmc.ncbi.nlm.nih.gov/articles/PMC9352773/
 
 ## 4. Choosing Hotspots
 
-The following talbe show the properties of all amino acids in a structure. 
+If you are a scientist and have experience working with a particular protein, it might be easy to pick the correct hotspots (target amino acids where the binder should try to make the contacts). And if the protein structure is small, then you could look at the 3D structure/any known binder and take a guess which area the model should target. However, guessing might not be the best approach; it might get you a good binder or worse, depending on your luck. So, we will bring some quantifiable metrics from which we can generate an initial target, and depending on the initial success, it can be tuned further. One thing to note is that quantifiable metrics don’t guarantee the generated binders are better. It may be better, or maybe not. Also, Bindcraft has a default way to choose the best binding area; if you cannot decide which side to target, leave the method to default. Based on the outcome, if you could try to co-relate which could be the potential hotspots for binding?
+
+We have picked the 1YI5, a long-chain alpha-neurotoxin. Some metrics to quantify are polarity, loop type, accessibility, and hydropathy.
+
+
+| Property   | Description |
+|:-----------|-------------:|
+| Accessibility         | A quantifiable way to check whether the amino acids of the chains are exposed outside or not. A positive value means it is accessible, and a negative value indicates the amino acids are inside the 3D structure. |
+| Hydropathy          | This value signifies whether the nature of the amino acids is hydrophobic or hydrophilic; the general trend is to target hydrophobic amino acids/surfaces that do not interact with water. A positive value means it is more hydrophobic. |
+| Polarity          | The polarity of amino acids is also important; polar amino acids gravitate more toward the solvent, i.e., water, and are less likely to participate in protein-protein interactions. That being said, it is not always the case. |
+| Loop type          | Helix and loops are relatively stable, so targeting the amino acids part should be preferred. A protein's (tails) termini are very dynamic, so binding on the tails would not be easy. |
+
+
+You can decide which order you want to use your parameters depending on your priority. Here, I have set to
+Accessibility > Hydropathy > Polarity > Loop Type. 
+
+
+
+The following table shows the properties of all amino acids in a structure. 
 
 | chain_id   |   residue_id | residue_name   | property   | ss_type   | ss_code   |   accessibility |   hydropathy |    phi |    psi |   plddt | is_interface   |
 |:-----------|-------------:|:---------------|:-----------|:----------|:----------|----------------:|-------------:|-------:|-------:|--------:|:---------------|
@@ -184,7 +202,7 @@ accessibility > 0.5 and hydropathy > 0.3
 | F          |           55 | GLN            | polar      | loop      | -         |        0.717172 |        0.533 | -157.3 | 103.9 |    0.39 |                |
 
 
-Also, note that setting aggresive filters might leave the good hotspots, I would recommend keeping it at bottom level and based on the outcome adjust accordingly. 
+Also, note that setting aggressive filters might leave the good hotspots. I would recommend keeping it at the bottom level and adjusting accordingly based on the outcome. 
 
 
 ## 5. TODO
@@ -201,7 +219,7 @@ Also, note that setting aggresive filters might leave the good hotspots, I would
 Article:
 https://www.bakerlab.org/2025/01/15/neutralizing-deadly-snake-toxins/
 
-Crystal structure of the a-cobratoxin-AChBP complex
+Crystal structure of the alpha-cobratoxin-AChBP complex
 https://www.rcsb.org/3d-view/1YI5
 
 https://en.wikipedia.org/wiki/Snake_venom
