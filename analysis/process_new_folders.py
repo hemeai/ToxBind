@@ -118,13 +118,14 @@ def main(): # pylint: disable=too-many-locals
 
     if not new_folders:
         print("No new folders to process.")
+        return 
     else:
         print(f"Found {len(new_folders)} new folder(s) to process: {new_folders}")
 
 
-    if not new_folders:
-        print("No new folders to process.")
-        return
+    # if not new_folders:
+    #     print("No new folders to process.")
+    #     return
 
     s3_client = boto3.client('s3',
                              aws_access_key_id=aws_access_key_id,
