@@ -14,8 +14,9 @@
 2. [Target Protein Link](#2-target-protein-link)
 3. [Designed Binder Results](#3-designed-binder-results)
 4. [Choosing Hotspots](#4-choosing-hotspots)
-5. [TODO](#4-todo)
-6. [References & Useful Links](#5-references-&-useful-links)
+5. [How to RUN](#5-how-to-run)
+6. [TODO](#4-todo)
+7. [References & Useful Links](#5-references-&-useful-links)
 
 ## 1. Introduction
 
@@ -205,7 +206,11 @@ accessibility > 0.5 and hydropathy > 0.3
 Also, note that setting aggressive filters might leave the good hotspots. I would recommend keeping it at the bottom level and adjusting accordingly based on the outcome. 
 
 
-## 5. TODO
+## 5. How to RUN 
+
+
+
+## 6. TODO
 - [x] Combine all workflow into one
 - [x] Remove duplicate runs and re-run the same thing again and again 
 - [x] Add target sequence, Folder
@@ -214,7 +219,7 @@ Also, note that setting aggressive filters might leave the good hotspots. I woul
 - [ ] Build consensus toxin with AF2
 - [ ] Arrange sections for better readability 
 
-## 6. References & Useful Links
+## 7. References & Useful Links
 
 Article:
 https://www.bakerlab.org/2025/01/15/neutralizing-deadly-snake-toxins/
