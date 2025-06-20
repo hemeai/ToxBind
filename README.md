@@ -48,7 +48,7 @@ Binder table: [final_results.csv](./final_results.csv)
 
 Large files (Trajectory animations, plots) are not tracked in this repository due to size constraints.
 Please download them from:
-- [Google Drive Link](https://drive.google.com/drive/folders/1Gxfo3N9OhU5ZyxvZsio3WGBP6lHr02mt)
+- [Google Drive Link](https://drive.google.com/drive/folders/1FNKq4x_s7st9nGh1GVHpGyuJaXnNYYe6?usp=sharing)
 
 ## 3. Target Toxin/Proteins 
 We have the following targets: 
