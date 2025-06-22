@@ -1171,7 +1171,8 @@ def main(
     logger = logging.getLogger(__name__)
 
     logger.info("Starting pipeline...")
-    today = datetime.now().strftime("%Y%m%d%H%M")[2:]
+    today = datetime.now().strftime("%Y%m%d%H%M%S")[2:]
+    print("Folder name: ", today)
 
     try:
         try:
