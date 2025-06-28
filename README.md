@@ -230,3 +230,21 @@ https://www.rcsb.org/3d-view/1YI5
 https://en.wikipedia.org/wiki/Snake_venom
 https://www.sciencedirect.com/science/article/abs/pii/B9780124158139000143
 https://en.wikipedia.org/wiki/Amino_acid
+
+Why This Is the Deadliest Venom in the World
+https://www.youtube.com/watch?v=Y43QAqfTIcM
+
+Snakebite venom variation and its impact on the efficacy of polyclonal antibody therapy: 
+https://www.youtube.com/watch?v=lIpZC_ZH1Xw
+
+Kurt Wibmer: Monoclonal antibodies neutralizing snake venom long & short chain 3-finger neurotoxins
+https://www.youtube.com/watch?v=dYjPe4uWf0s
+
+Evolution and diversification of snake venom toxins and venom glands
+https://www.youtube.com/watch?v=mSkgitjnv8I
+
+Characterization of a Novel Three-Finger Toxin in Blue Coral Snakes
+https://www.youtube.com/watch?v=AISxPDUbf7k
+
+Venoms and Toxins 2023: Flash talk by Anas Bedraoui (22-24 Aug 2023)
+https://www.youtube.com/watch?v=XatqenCd_IU
