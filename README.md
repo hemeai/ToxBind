@@ -248,3 +248,13 @@ https://www.youtube.com/watch?v=AISxPDUbf7k
 
 Venoms and Toxins 2023: Flash talk by Anas Bedraoui (22-24 Aug 2023)
 https://www.youtube.com/watch?v=XatqenCd_IU
+
+Beta-neurotoxin
+https://en.wikipedia.org/wiki/Inland_taipan#Venom
+https://www.sciencedirect.com/science/article/abs/pii/S0028390807000056
+
+How Horses Save Humans From Snakebites
+https://www.youtube.com/watch?v=7ziWrneMYss
+
+How Antivenom Is Made During A Global Shortage | Big Business | Business Insider
+https://www.youtube.com/watch?v=nWjky1ITYSI
