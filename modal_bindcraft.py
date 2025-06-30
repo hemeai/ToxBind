@@ -1130,6 +1130,7 @@ def run_full_pipeline(
     lengths: str,
     number_of_final_designs: int,
     today: str,
+    design_protocol: str, 
 ):
     import logging
 
@@ -1144,6 +1145,7 @@ def run_full_pipeline(
         target_hotspot_residues=target_hotspot_residues,
         lengths=lengths,
         number_of_final_designs=number_of_final_designs,
+        design_protocol=design_protocol
     )
     logger.info("Bindcraft completed, starting upload...")
     # Then process and upload results
@@ -1159,6 +1161,7 @@ def main(
     lengths: str = "40,100",
     number_of_final_designs: int = 1,
     binder_name: str = None,
+    design_protocol: str = "Default",
 ):
     """
     target_hotspot_residues: What positions to target in your protein of interest?
@@ -1195,6 +1198,7 @@ def main(
             lengths=lengths,
             number_of_final_designs=number_of_final_designs,
             today=today,
+            design_protocol=design_protocol
         )
     except Exception as e:
         print(f"Pipeline failed: {e}")
