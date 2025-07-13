@@ -10,8 +10,8 @@ from pathlib import Path
 
 from modal import App, Image
 
-GPU = os.environ.get("MODAL_GPU", "A10G")
-TIMEOUT = os.environ.get("MODAL_TIMEOUT", 20 * 60)
+GPU = os.environ.get("MODAL_GPU", "A100")
+TIMEOUT = os.environ.get("MODAL_TIMEOUT", 60 * 60)
 LOCAL_MSA_DIR = "msas"
 if not Path(LOCAL_MSA_DIR).exists():
     Path(LOCAL_MSA_DIR).mkdir(exist_ok=True)
@@ -238,7 +238,7 @@ def main(
         return_all_files=return_all_files,
     )
 
-    today = datetime.now().strftime("%Y%m%d%H%M")[2:]
+    today = datetime.now().strftime("%Y%m%d%H%M%S")[2:]
     out_dir_full = Path(out_dir) / today
 
     for out_file, out_content in outputs:
