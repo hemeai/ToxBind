@@ -1,0 +1,13 @@
+[project]
+name = "toxbind"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "biopython>=1.85",
+    "boto3>=1.39.9",
+    "modal>=1.1.0",
+    "numpy>=2.3.1",
+    "pandas>=2.3.1",
+]

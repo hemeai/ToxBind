@@ -18,3 +18,5 @@ analysis/alphafold_results
 # Environment files
 .env
 .env.local
+
+.venv
