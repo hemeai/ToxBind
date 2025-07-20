@@ -7,3 +7,14 @@ pdb_fetch 5nq4 > 5nq4.pdb
 pdb_wc 7z14.pdb
 
 pdb_tofasta -multi 7z14.pdb 
+
+
+/Users/satishgaurav/Documents/extra/HemeAI/ToxBind/analysis/fasta_files_for_alphafold/1yi5_l102_s209387_mpnn3.fasta
+
+GPU="H100" modal run modal_alphafold.py --input-fasta ./fasta_files_for_alphafold/1yi5_l102_s209387_mpnn3.fasta  --out-dir output-test
+
+GPU="H100" modal run modal_alphafold.py --input-fasta ./fasta_files_for_alphafold/1yi5_l102_s209387_mpnn3.fasta  
+
+
+pip install modal
+python3 -m modal setup
