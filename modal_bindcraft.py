@@ -35,7 +35,7 @@ image = (
         "pdb-tools==2.4.8", "ffmpeg-python==0.2.0", "plotly==5.18.0", "kaleido==0.2.1"
     )
     .pip_install("boto3")
-    .pip_install("git+https://github.com/sokrypton/ColabDesign.git")
+    .pip_install("git+https://github.com/LeonardoTredese/ColabDesign.git")
     .pip_install("pyrosettacolabsetup")
     .run_commands(
         "git clone https://github.com/martinpacesa/BindCraft /root/bindcraft",
