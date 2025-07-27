@@ -18,3 +18,10 @@ GPU="H100" modal run modal_alphafold.py --input-fasta ./fasta_files_for_alphafol
 
 pip install modal
 python3 -m modal setup
+
+
+https://www.rcsb.org/3d-view/8D9Y
+pdb_fetch 8d9y > 8d9y.pdb
+
+wget https://files.rcsb.org/download/8d9y.pdb
+pdb_tofasta -multi 8d9y.pdb 
