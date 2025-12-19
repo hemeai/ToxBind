@@ -1,0 +1,33 @@
+=== Protein-to-plasmid build ===
+Backbone: L09137.2
+Insertion site: pUC19 MCS
+Gibson homology: 40 bp each side
+Cassette start (plasmid coords): 396
+
+Optimized CDS length: 126 bp (GC 35.7%)
+Expression cassette length: 260 bp
+Final plasmid length: 2889 bp (GC 49.5%)
+
+Feature starts (1-based on plasmid):
+ - t7_promoter: 396
+ - rbs: 416
+ - start_codon: 428
+ - his6_tag: 431
+ - tev_site: 449
+ - linker: 470
+ - coding_sequence: 482
+ - stop_codon: 608
+ - terminator: 611
+
+Pydna assembly: ✓ circular product found
+Restriction digest (fragment sizes in bp):
+ - BsaI: 2893
+ - BsmBI: 46, 2851
+ - BbsI: no cut
+ - EcoRI: no cut
+
+Orderables:
+ - optimized CDS: output/optimized_cds.fasta
+ - expression cassette (no homology): output/expression_cassette.fasta
+ - gBlock with backbone homology: output/gblock_insert.fasta
+ - final plasmid: output/plasmid_ready_to_order.fasta

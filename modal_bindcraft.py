@@ -1,5 +1,12 @@
-"""
-adapting
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#     "modal>=1.0",
+# ]
+# ///
+"""Runs the BindCraft protein binder design pipeline on Modal.
+
+Adapting:
 https://colab.research.google.com/github/martinpacesa/BindCraft/blob/main/notebooks/BindCraft.ipynb
 
 Approximate cost for 3 designs, PDL1.pdb only:
@@ -10,17 +17,24 @@ Approximate cost for 3 designs, PDL1.pdb only:
 
 import os
 from pathlib import Path
-import modal 
-import json 
 
 from modal import App, Image
 
-GPU = os.environ.get("GPU", "A10G")
-TIMEOUT = int(os.environ.get("TIMEOUT", 720))
+# It is harder to provision A100s if you set the timeout too high
+GPU = os.environ.get("GPU", "A100")
+TIMEOUT = int(os.environ.get("TIMEOUT", 300))
 print(f"Using GPU {GPU}; TIMEOUT {TIMEOUT}")
 
 
 def set_up_pyrosetta():
+    """Installs PyRosetta using pyrosettacolabsetup.
+
+    Args:
+        None
+
+    Returns:
+        None
+    """
     import pyrosettacolabsetup
 
     pyrosettacolabsetup.install_pyrosetta(
@@ -41,7 +55,7 @@ image = (
         "git clone https://github.com/martinpacesa/BindCraft /root/bindcraft",
         "cd /root/bindcraft && git checkout c0a48d595d4976694aa979438712ac94c16620bb",
         "chmod +x /root/bindcraft/functions/dssp",
-        "chmod +x /root/bindcraft/functions/DAlphaBall.gcc"
+        "chmod +x /root/bindcraft/functions/DAlphaBall.gcc",
     )
     .run_commands(
         "ln -s /usr/local/lib/python3.*/dist-packages/colabdesign colabdesign && mkdir /params"
@@ -52,8 +66,10 @@ image = (
         " && tar -xf alphafold_params_2022-12-06.tar -C /root/bindcraft/params"
     )
     .run_function(set_up_pyrosetta)
-    .pip_install("jax[cuda]")
-    .pip_install("matplotlib==3.8.1") # https://github.com/martinpacesa/BindCraft/issues/4
+    .pip_install("jax[cuda13]")
+    .pip_install(
+        "matplotlib==3.8.1"
+    )  # https://github.com/martinpacesa/BindCraft/issues/4
 )
 
 
@@ -73,7 +89,28 @@ def bindcraft(
     interface_protocol="AlphaFold2",
     template_protocol="Default",
     filter_option="Default",
+    max_trajectories: int | None = None,
 ):
+    """Executes the BindCraft pipeline to design protein binders against a target structure.
+
+    Args:
+        design_path (str): Path for design outputs within the container.
+        binder_name (str): Name for the binder design project.
+        pdb_str (str): PDB file content as a string.
+        chains (str): Target chain(s) in the PDB.
+        target_hotspot_residues (str): Hotspot residues on the target.
+        lengths (list[int]): Range of lengths for the binder.
+        number_of_final_designs (int): Desired number of final designs.
+        design_protocol (str): Design protocol to use (e.g., "Default", "Beta-sheet").
+        interface_protocol (str): Interface protocol (e.g., "AlphaFold2", "MPNN").
+        template_protocol (str): Template protocol (e.g., "Default", "Masked").
+        filter_option (str): Filter settings to apply (e.g., "Default", "Peptide").
+        max_trajectories (int | None): Maximum number of design trajectories to run.
+
+    Returns:
+        list[tuple[Path, bytes]]: A list of tuples, where each tuple contains the relative output
+                                  file path from `design_path` and its byte content.
+    """
     import json
     import os
     import shutil
@@ -104,7 +141,7 @@ def bindcraft(
         predict_binder_complex,
         mk_afdesign_model,
         mpnn_gen_sequence,
-        perform_advanced_settings_check, 
+        perform_advanced_settings_check,
         pr,
         pr_relax,
         predict_binder_alone,
@@ -142,21 +179,21 @@ def bindcraft(
     elif design_protocol == "Peptide":
         design_protocol_tag = "peptide_3stage_multimer"
     else:
-        raise ValueError(f"Unsupported design protocol")
+        raise ValueError("Unsupported design protocol")
 
     if interface_protocol == "AlphaFold2":
         interface_protocol_tag = ""
     elif interface_protocol == "MPNN":
         interface_protocol_tag = "_mpnn"
     else:
-        raise ValueError(f"Unsupported interface protocol")
+        raise ValueError("Unsupported interface protocol")
 
     if template_protocol == "Default":
         template_protocol_tag = ""
     elif template_protocol == "Masked":
         template_protocol_tag = "_flexible"
     else:
-        raise ValueError(f"Unsupported template protocol")
+        raise ValueError("Unsupported template protocol")
 
     advanced_settings_path = (
         "/root/bindcraft/settings_advanced/"
@@ -180,7 +217,7 @@ def bindcraft(
     elif filter_option == "None":
         filter_settings_path = "/root/bindcraft/settings_filters/no_filters.json"
     else:
-        raise ValueError(f"Unsupported filter type")
+        raise ValueError("Unsupported filter type")
 
     args = {
         "settings": target_settings_path,
@@ -202,6 +239,12 @@ def bindcraft(
     target_settings, advanced_settings, filters = load_json_settings(
         settings_path, filters_path, advanced_path
     )
+
+    print("target_settings", target_settings)
+    print("advanced_settings", advanced_settings)
+    print("filters", filters)
+    if max_trajectories is not None:
+        advanced_settings["max_trajectories"] = max_trajectories
 
     settings_file = os.path.basename(settings_path).split(".")[0]
     filters_file = os.path.basename(filters_path).split(".")[0]
@@ -269,6 +312,7 @@ def bindcraft(
             break
 
         ### check if we reached maximum allowed trajectories
+        # set advanced_settings["max_trajectories"]
         max_trajectories_reached = check_n_trajectories(design_paths, advanced_settings)
 
         if max_trajectories_reached:
@@ -502,9 +546,9 @@ def bindcraft(
                             advanced_settings["optimise_beta"]
                             and float(trajectory_beta) > 15
                         ):
-                            advanced_settings["num_recycles_validation"] = (
-                                advanced_settings["optimise_beta_recycles_valid"]
-                            )
+                            advanced_settings[
+                                "num_recycles_validation"
+                            ] = advanced_settings["optimise_beta_recycles_valid"]
 
                         ### Compile prediction models once for faster prediction of MPNN sequences
                         clear_mem()
@@ -558,21 +602,22 @@ def bindcraft(
                                 )
 
                             ### Predict mpnn redesigned binder complex using masked templates
-                            mpnn_complex_statistics, pass_af2_filters = (
-                                predict_binder_complex(
-                                    complex_prediction_model,
-                                    mpnn_sequence["seq"],
-                                    mpnn_design_name,
-                                    target_settings["starting_pdb"],
-                                    target_settings["chains"],
-                                    length,
-                                    trajectory_pdb,
-                                    prediction_models,
-                                    advanced_settings,
-                                    filters,
-                                    design_paths,
-                                    failure_csv,
-                                )
+                            (
+                                mpnn_complex_statistics,
+                                pass_af2_filters,
+                            ) = predict_binder_complex(
+                                complex_prediction_model,
+                                mpnn_sequence["seq"],
+                                mpnn_design_name,
+                                target_settings["starting_pdb"],
+                                target_settings["chains"],
+                                length,
+                                trajectory_pdb,
+                                prediction_models,
+                                advanced_settings,
+                                filters,
+                                design_paths,
+                                failure_csv,
                             )
 
                             # if AF2 filters are not passed then skip the scoring
@@ -873,7 +918,7 @@ def bindcraft(
                             filter_conditions = check_filters(
                                 mpnn_data, design_labels, filters
                             )
-                            if filter_conditions == True:
+                            if filter_conditions is True:
                                 print(mpnn_design_name + " passed all filters")
                                 accepted_mpnn += 1
                                 accepted_designs += 1
@@ -1014,7 +1059,7 @@ def bindcraft(
     ]
 
     for f in os.listdir(design_paths["Accepted/Ranked"]):
-        os.remove(os.path.join(design_paths["Accepted/Ranked"], f))
+        os.remove(os.path.join(design_paths["Accepted/Ranked"], str(f)))
 
     # load dataframe of designed binders
     design_df = pd.read_csv(mpnn_csv)
@@ -1057,149 +1102,64 @@ def bindcraft(
     ]
 
 
-@app.function(
-    secrets=[modal.Secret.from_name("aws-secret-bindcraft")],
-    volumes={
-        "/data": modal.Volume.from_name("bindcraft-volume", create_if_missing=True)
-    },
-    timeout=TIMEOUT * 60,
-)
-def process_and_upload(
-    outputs,
-    today: str,
+@app.local_entrypoint()
+def main(
+    input_pdb: str,
+    target_chains: str = "A",
+    target_hotspot_residues: str = "",
+    lengths: str = "50,130",
+    number_of_final_designs: int = 1,
+    max_trajectories: int | None = None,
+    binder_name: str | None = None,
+    out_dir: str = "./out/bindcraft",
+    run_name: str | None = None,
 ):
-    import boto3
-    import logging
-    from pathlib import Path
+    """Local entrypoint to run BindCraft binder design.
 
-    logging.basicConfig(level=logging.INFO)
-    logger = logging.getLogger(__name__)
+    Args:
+        input_pdb (str): Path to the input PDB file.
+        target_chains (str, optional): Target chain(s) in the PDB. Defaults to "A".
+        target_hotspot_residues (str, optional): Hotspot residues on the target.
+            For example "1,2-10" or chain specific "A1-10,B1-20" or entire chains "A".
+            If left blank, an appropriate site will be selected by the pipeline.
+            Defaults to "".
+        lengths (str, optional): Comma-separated string defining the range of lengths for the binder
+                                 (e.g., "50,130"). Defaults to "50,130".
+        number_of_final_designs (int, optional): Desired number of final designs. Defaults to 1.
+        max_trajectories (int | None, optional): Maximum number of design trajectories to run.
+                                                 Defaults to None.
+        binder_name (str | None, optional): Name for the binder design project. If None, it's derived
+                                            from the input PDB filename. Defaults to None.
+        out_dir (str, optional): Directory to save the output files. Defaults to "./out/bindcraft".
+        run_name (str | None, optional): Optional name for the run, used to create a subdirectory
+                                         in `out_dir`. If None, a timestamp-based name is used.
+                                         Defaults to None.
 
-    s3_client = boto3.client("s3")
-    bucket_name = "bindcraft"
-    prefix = "snake-venom-binder"  # Add prefix for the folder
-    results = []
+    Returns:
+        None
+    """
+    from datetime import datetime
 
-    try:
-        for out_file, out_content in outputs:
-            if not out_content:
-                continue
-            # Use Modal volume for temporary storage
-            temp_path = Path("/data") / out_file
-            temp_path.parent.mkdir(parents=True, exist_ok=True)
+    today = datetime.now().strftime("%Y%m%d%H%M")[2:]
 
-            # Write to temp storage
-            try:
-                with open(temp_path, "wb") as f:
-                    f.write(out_content)
+    pdb_str = open(input_pdb).read()
+    binder_name = binder_name or Path(input_pdb).stem
+    design_path = f"/tmp/BindCraft/{binder_name}/"
+    lengths_list = [int(i) for i in lengths.split(",")]
 
-                # Upload to S3 with prefix
-                s3_key = f"{prefix}/{today}/{out_file}"  # Add prefix to S3 key
-                s3_client.upload_file(
-                    Filename=str(temp_path), 
-                    Bucket=bucket_name, 
-                    Key=s3_key
-                )
-                logger.info(f"Successfully uploaded {out_file} to S3 under {prefix}")
-                results.append((str(out_file), True))
-
-            except Exception as e:
-                logger.error(f"Error processing {out_file}: {str(e)}")
-                results.append((str(out_file), False))
-
-    except Exception as e:
-        logger.error(f"Fatal error in process_and_upload: {str(e)}")
-        raise
-
-    return results
-
-@app.function(
-    image=image,
-    timeout=TIMEOUT * 60,
-    secrets=[modal.Secret.from_name("aws-secret-bindcraft")],
-    volumes={
-        "/data": modal.Volume.from_name("bindcraft-volume", create_if_missing=True)
-    },
-)
-def run_full_pipeline(
-    design_path: str,
-    binder_name: str,
-    pdb_str: str,
-    chains: str,
-    target_hotspot_residues: str,
-    lengths: str,
-    number_of_final_designs: int,
-    today: str,
-    design_protocol: str, 
-):
-    import logging
-
-    logger = logging.getLogger(__name__)
-
-    # First run bindcraft
     outputs = bindcraft.remote(
         design_path=design_path,
         binder_name=binder_name,
         pdb_str=pdb_str,
-        chains=chains,
+        chains=target_chains,
         target_hotspot_residues=target_hotspot_residues,
-        lengths=lengths,
+        lengths=lengths_list,
         number_of_final_designs=number_of_final_designs,
-        design_protocol=design_protocol
+        max_trajectories=max_trajectories,
     )
-    logger.info("Bindcraft completed, starting upload...")
-    # Then process and upload results
-    results = process_and_upload.remote(outputs, today)
-    return results
 
-
-@app.local_entrypoint()
-def main(
-    input_pdb: str,
-    chains: str = "A",
-    target_hotspot_residues: str = "",
-    lengths: str = "40,100",
-    number_of_final_designs: int = 1,
-    binder_name: str = None,
-    design_protocol: str = "Default",
-):
-    """
-    target_hotspot_residues: What positions to target in your protein of interest?
-    For example 1,2-10 or chain specific A1-10,B1-20 or entire chains A.
-    """
-    from datetime import datetime
-    import logging
-
-    logging.basicConfig(level=logging.INFO)
-    logger = logging.getLogger(__name__)
-
-    logger.info("Starting pipeline...")
-    today = datetime.now().strftime("%Y%m%d%H%M%S")[2:]
-    print("Folder name: ", today)
-
-    try:
-        try:
-            with open(input_pdb) as f:
-                pdb_str = f.read()
-        except FileNotFoundError:
-            raise ValueError(f"Input PDB file not found: {input_pdb}")
-
-        binder_name = binder_name or Path(input_pdb).stem
-        design_path = f"/tmp/BindCraft/{binder_name}/"
-        lengths = [int(i) for i in lengths.split(",")]
-
-        # Call combined pipeline function
-        future = run_full_pipeline.remote(
-            design_path=design_path,
-            binder_name=binder_name,
-            pdb_str=pdb_str,
-            chains=chains,
-            target_hotspot_residues=target_hotspot_residues,
-            lengths=lengths,
-            number_of_final_designs=number_of_final_designs,
-            today=today,
-            design_protocol=design_protocol
-        )
-    except Exception as e:
-        print(f"Pipeline failed: {e}")
-        raise
+    for out_file, out_content in outputs:
+        output_path = Path(out_dir) / (run_name or today) / out_file
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(output_path, "wb") as out:
+            out.write(out_content)

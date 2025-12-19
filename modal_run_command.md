@@ -131,3 +131,6 @@ TIMEOUT=1400 GPU=A100 modal run --detach modal_bindcraft.py --input-pdb ./target
 
 TIMEOUT=1400 GPU=A100 modal run --detach modal_bindcraft.py --input-pdb ./target/8d9y.pdb --chains I  --lengths 72,96 --number-of-final-designs 1
 
+TIMEOUT=1400 GPU=A100 modal run --detach modal_bindcraft.py --input-pdb ./target/7z14.pdb --chains F  --lengths 72,96 --number-of-final-designs 1 
+
+TIMEOUT=1400 GPU=A100 modal run --detach modal_bindcraft.py --input-pdb ./target/7z14.pdb --target-chains F  --lengths 72,96 --number-of-final-designs 1

@@ -10,4 +10,6 @@ dependencies = [
     "modal>=1.1.0",
     "numpy>=2.3.1",
     "pandas>=2.3.1",
+    "dnachisel>=3.2.15",
+    "pydna>=0.6.6",
 ]

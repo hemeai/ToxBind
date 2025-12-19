@@ -20,3 +20,6 @@ analysis/alphafold_results
 .env.local
 
 .venv
+
+# don't add python cache 
+__pycache__
