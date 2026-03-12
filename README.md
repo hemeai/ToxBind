@@ -2,7 +2,7 @@
 <!-- markdownlint-disable html -->
 <!-- markdownlint-disable no-duplicate-header -->
 
-# ToxBind: Snake Venom Binder
+# ToxBind: De novo antivenom minibinders using BindCraft
 
 <div align="center">
   <img src="https://github.com/hemeai/ToxBind/blob/main/others/images/ToxBind.png?raw=true" width="100%"  alt="ToxBind Cover Image" />
