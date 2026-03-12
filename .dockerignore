@@ -1,0 +1,15 @@
+.git
+.gitignore
+analysis/
+out/
+target/
+__pycache__/
+*.py[cod]
+*.log
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.bz2
+*.egg-info/
+*.ipynb_checkpoints/

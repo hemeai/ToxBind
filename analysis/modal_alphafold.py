@@ -277,6 +277,7 @@ def main(
     from datetime import datetime
 
     fasta_str = open(input_fasta).read()
+    print("fasta str: ", fasta_str)
     if isinstance(models, str):
         models = [int(model) for model in models.split(",")]
     elif models is None:
