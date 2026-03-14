@@ -18,18 +18,18 @@ jobs:
           python-version: ${{ matrix.python-version }}
           activate-environment: true
           auto-activate-base: false
-          use-only-tar-bz2: true  # important for caching
+          use-only-tar-bz2: true # important for caching
 
       - name: Cache Conda packages
         uses: actions/cache@v4
         with:
-          path: ~/.conda/pkgs  # default package cache path
+          path: ~/.conda/pkgs # default package cache path
           key: conda-pkgs-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('environment.yml') }}
           restore-keys: |
             conda-pkgs-${{ runner.os }}-${{ matrix.python-version }}-
 
       - name: Install dependencies from environment.yml
-        run: conda env update --file environment.yml --name base
+        run: conda env update --file ./scripts/environment.yml --name base
 
       - name: Run pylint
         run: |
