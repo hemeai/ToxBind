@@ -1,0 +1,17 @@
+name: test-env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - pymol-open-source
+  - pip
+  - pip:
+      - pylint
+      - pandas
+      - biopython
+      - modal
+      - numpy
+      - colabfold
+      - boto3
+      - dnachisel
