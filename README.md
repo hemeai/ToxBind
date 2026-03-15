@@ -8,6 +8,9 @@
   <img src="https://github.com/hemeai/ToxBind/blob/main/others/images/ToxBind.png?raw=true" width="100%"  alt="ToxBind Cover Image" />
 </div>
 
+
+[BETTER ORGANIZED WHITEPAPER LINK](https://docs.google.com/document/d/1gO4FYNDefuyx39bvFiInxaknKqED3AVyIE0ywXoF9bY/edit?usp=sharing)
+
 ## Table of Contents
 
 1. [Introduction](#1-introduction)
