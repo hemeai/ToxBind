@@ -155,3 +155,12 @@ Now trying with max-trajectories limit
 
 TIMEOUT=1400 GPU=A100 modal run --detach ./scripts/modal_bindcraft.py --input-pdb ./target/AF-P59071-F1-model_v6.pdb --target-chains A --target-hotspot-residues A24,A25,A26 --lengths 24,36 --max-trajectories 10
 
+uv run mosaic --sequence SLLEFGKMILEETGKLAIPSYSSYGCYCGWGGKGTPKDATDRCCFVHDCCYGNLPDCNPKSDRYKYKRVNGAIVCEKGTSCENRICECDKAAAICFRQNLNTYSKKYMLYPDFLCKGELKC --num-designs 2 --full-ranking
+
+uvx --from 'mosaic-tui @ git+https://github.com/escalante-bio/mosaic-tui' mosaic --sequence SLLEFGKMILEETGKLAIPSYSSYGCYCGWGGKGTPKDATDRCCFVHDCCYGNLPDCNPKSDRYKYKRVNGAIVCEKGTSCENRICECDKAAAICFRQNLNTYSKKYMLYPDFLCKGELKC --num-designs 2 --full-ranking
+
+uvx --from 'mosaic-tui @ git+https://github.com/escalante-bio/mosaic-tui' mosaic --pdb 1yi5 --chain F --binder-length 72
+
+uvx --from 'mosaic-tui @ git+https://github.com/escalante-bio/mosaic-tui' mosaic --pdb 7z14 --chain F --binder-length 72
+
+uvx --from 'mosaic-tui @ git+https://github.com/escalante-bio/mosaic-tui' mosaic --pdb 1yi5 --chain J --binder-length 72
