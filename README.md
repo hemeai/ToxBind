@@ -9,7 +9,7 @@
 </div>
 
 
-[BETTER ORGANIZED WHITEPAPER LINK](https://docs.google.com/document/d/1gO4FYNDefuyx39bvFiInxaknKqED3AVyIE0ywXoF9bY/edit?usp=sharing)
+[WHITEPAPER(in progress)](https://docs.google.com/document/d/1gO4FYNDefuyx39bvFiInxaknKqED3AVyIE0ywXoF9bY/edit?usp=sharing)
 
 ## Table of Contents
 
